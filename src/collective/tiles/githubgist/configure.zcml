@@ -43,6 +43,14 @@
       post_handler=".setuphandlers.uninstall"
       />
 
+  <genericsetup:registerProfile
+      name="mosaic_support"
+      title="Github Gist tile (mosaic support)"
+      directory="profiles/mosaic_support"
+      description="Add this tile to mosaic list."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
 
   <utility
       factory=".setuphandlers.HiddenProfiles"
