@@ -1,51 +1,63 @@
 # -*- coding: utf-8 -*-
-"""Setup tests for this package."""
-from plone import api
-from collective.tiles.githubgist.testing import COLLECTIVE_TILES_GITHUBGIST_INTEGRATION_TESTING  # noqa
+"""Test Setup of spirit.plone.theming."""
 
-import unittest
+# python imports
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
+
+# zope imports
+from plone import api
+from plone.browserlayer.utils import registered_layers
+
+# local imports
+from collective.tiles.githubgist.config import PROJECT_NAME
+from collective.tiles.githubgist.testing import INTEGRATION_TESTING
 
 
 class TestSetup(unittest.TestCase):
     """Test that collective.tiles.githubgist is properly installed."""
 
-    layer = COLLECTIVE_TILES_GITHUBGIST_INTEGRATION_TESTING
+    layer = INTEGRATION_TESTING
 
     def setUp(self):
-        """Custom shared utility setup for tests."""
+        """Additional test setup."""
         self.portal = self.layer['portal']
-        self.installer = api.portal.get_tool('portal_quickinstaller')
 
     def test_product_installed(self):
-        """Test if collective.tiles.githubgist is installed."""
-        self.assertTrue(self.installer.isProductInstalled(
-            'collective.tiles.githubgist'))
+        """Validate that our product is installed."""
+        qi = self.portal.portal_quickinstaller
+        self.assertTrue(qi.isProductInstalled(PROJECT_NAME))
 
-    def test_browserlayer(self):
-        """Test that ICollectiveTilesGithubgistLayer is registered."""
+    def test_addon_layer(self):
+        """Validate that the browserlayer for our product is installed."""
         from collective.tiles.githubgist.interfaces import (
-            ICollectiveTilesGithubgistLayer)
-        from plone.browserlayer import utils
-        self.assertIn(ICollectiveTilesGithubgistLayer, utils.registered_layers())
+            ICollectiveTilesGithubgistLayer,
+        )
+        self.assertIn(ICollectiveTilesGithubgistLayer, registered_layers())
 
 
 class TestUninstall(unittest.TestCase):
 
-    layer = COLLECTIVE_TILES_GITHUBGIST_INTEGRATION_TESTING
+    layer = INTEGRATION_TESTING
 
     def setUp(self):
+        """Additional test setup."""
         self.portal = self.layer['portal']
-        self.installer = api.portal.get_tool('portal_quickinstaller')
-        self.installer.uninstallProducts(['collective.tiles.githubgist'])
 
-    def test_product_uninstalled(self):
-        """Test if collective.tiles.githubgist is cleanly uninstalled."""
-        self.assertFalse(self.installer.isProductInstalled(
-            'collective.tiles.githubgist'))
+        qi = self.portal.portal_quickinstaller
+        with api.env.adopt_roles(['Manager']):
+            qi.uninstallProducts(products=[PROJECT_NAME])
 
-    def test_browserlayer_removed(self):
-        """Test that ICollectiveTilesGithubgistLayer is removed."""
-        from collective.tiles.githubgist.interfaces import \
-            ICollectiveTilesGithubgistLayer
-        from plone.browserlayer import utils
-        self.assertNotIn(ICollectiveTilesGithubgistLayer, utils.registered_layers())
+    def test_product_is_uninstalled(self):
+        """Validate that our product is uninstalled."""
+        qi = self.portal.portal_quickinstaller
+        self.assertFalse(qi.isProductInstalled(PROJECT_NAME))
+
+    def test_addon_layer_removed(self):
+        """Validate that the browserlayer is removed."""
+        from collective.tiles.githubgist.interfaces import (
+            ICollectiveTilesGithubgistLayer,
+        )
+        self.assertNotIn(ICollectiveTilesGithubgistLayer, registered_layers())

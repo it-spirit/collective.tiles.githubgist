@@ -65,6 +65,7 @@ setup(
             'plone.app.mosaic',
             'plone.app.robotframework[debug]',
             'plone.app.testing',
+            'robotframework-selenium2screenshots',
         ],
     },
     entry_points="""

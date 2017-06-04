@@ -1,28 +1,42 @@
 # -*- coding: utf-8 -*-
-from plone.app.testing import ROBOT_TEST_LEVEL
-from plone.testing import layered
-from collective.tiles.githubgist.testing import COLLECTIVE_TILES_GITHUBGIST_ACCEPTANCE_TESTING  # noqa
+"""Test UI with robot framework."""
 
+# python imports
 import os
 import robotsuite
-import unittest
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
+
+
+# zope imports
+from plone import api
+from plone.testing import layered
+
+# local imports
+from collective.tiles.githubgist import testing
 
 
 def test_suite():
     suite = unittest.TestSuite()
+    no_robot = 'NO_ROBOT' in os.environ.keys()
+    if no_robot or api.env.plone_version() < '4.2':
+        # No robot tests for Plone 4.1.x
+        return suite
+
     current_dir = os.path.abspath(os.path.dirname(__file__))
     robot_dir = os.path.join(current_dir, 'robot')
     robot_tests = [
-        os.path.join('robot', doc) for doc in os.listdir(robot_dir)
-        if doc.endswith('.robot') and doc.startswith('test_')
+        os.path.join('robot', doc)
+        for doc in os.listdir(robot_dir)
+        if doc.startswith('test') and doc.endswith('.robot')
     ]
-    for robot_test in robot_tests:
-        robottestsuite = robotsuite.RobotTestSuite(robot_test)
-        robottestsuite.level = ROBOT_TEST_LEVEL
+    for test in robot_tests:
         suite.addTests([
             layered(
-                robottestsuite,
-                layer=COLLECTIVE_TILES_GITHUBGIST_ACCEPTANCE_TESTING
+                robotsuite.RobotTestSuite(test),
+                layer=testing.ROBOT_TESTING,
             ),
         ])
     return suite

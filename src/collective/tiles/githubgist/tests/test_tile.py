@@ -9,15 +9,13 @@ import unittest
 from plone.testing.z2 import Browser
 
 # local imports
-from collective.tiles.githubgist.testing import (
-    COLLECTIVE_TILES_GITHUBGIST_INTEGRATION_TESTING,
-)
+from collective.tiles.githubgist.testing import INTEGRATION_TESTING
 
 
 class TestTile(unittest.TestCase):
     """Test that collective.tiles.githubgist is properly installed."""
 
-    layer = COLLECTIVE_TILES_GITHUBGIST_INTEGRATION_TESTING
+    layer = INTEGRATION_TESTING
 
     def setUp(self):
         """Custom shared utility setup for tests."""
