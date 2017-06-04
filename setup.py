@@ -1,46 +1,59 @@
 # -*- coding: utf-8 -*-
-"""Installer for the collective.tiles.githubgist package."""
+"""Setup for collective.tiles.githubgist package."""
 
-from setuptools import find_packages
-from setuptools import setup
+from setuptools import (
+    find_packages,
+    setup,
+)
 
-
-long_description = '\n\n'.join([
+version = '0.1.dev0'
+description = "A tile that shows Gists from GitHub."
+long_description = ('\n'.join([
     open('README.rst').read(),
+    'Contributors',
+    '------------\n',
     open('CONTRIBUTORS.rst').read(),
     open('CHANGES.rst').read(),
-])
+]))
 
+
+install_requires = [
+    'setuptools',
+    # -*- Extra requirements: -*-
+    'plone.api',
+]
 
 setup(
     name='collective.tiles.githubgist',
-    version='1.0a1',
-    description="A tile that shows Gists from GitHub.",
+    version=version,
+    description=description,
     long_description=long_description,
     # Get more from https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
+        "Development Status :: 4 - Beta",
         "Environment :: Web Environment",
         "Framework :: Plone",
+        "Framework :: Plone",
+        "Framework :: Plone :: 4.3",
         "Framework :: Plone :: 5.0",
+        "Framework :: Plone :: 5.1",
+        "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+        "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.7",
-        "Operating System :: OS Independent",
-        "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
     ],
     keywords='Python Plone',
-    author='Thomas Massmann',
+    author='it-spirit',
     author_email='thomas.massmann@it-spir.it',
-    url='https://pypi.python.org/pypi/collective.tiles.githubgist',
+    url='https://github.com/it-spirit/collective.tiles.githubgist',
+    download_url='https://pypi.python.org/pypi/collective.tiles.githubgist',
     license='GPL version 2',
     packages=find_packages('src', exclude=['ez_setup']),
-    namespace_packages=['collective', 'collective.tiles'],
     package_dir={'': 'src'},
+    namespace_packages=['collective', 'collective.tiles'],
     include_package_data=True,
     zip_safe=False,
-    install_requires=[
-        'setuptools',
-        'plone.api',
-    ],
+    install_requires=install_requires,
     extras_require={
         'test': [
             'plone.app.robotframework[debug]',
@@ -48,6 +61,8 @@ setup(
         ],
     },
     entry_points="""
+    # -*- Entry points: -*-
+
     [z3c.autoinclude.plugin]
     target = plone
     """,
