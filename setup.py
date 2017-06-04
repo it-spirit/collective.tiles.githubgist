@@ -21,6 +21,13 @@ install_requires = [
     'setuptools',
     # -*- Extra requirements: -*-
     'plone.api',
+    'plone.app.standardtiles',
+    'plone.app.tiles',
+    'plone.i18n',
+    'plone.supermodel',
+    'plone.tiles',
+    'zope.component',
+    'zope.schema',
 ]
 
 setup(
@@ -55,6 +62,7 @@ setup(
     install_requires=install_requires,
     extras_require={
         'test': [
+            'plone.app.mosaic',
             'plone.app.robotframework[debug]',
             'plone.app.testing',
         ],
