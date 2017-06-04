@@ -39,6 +39,7 @@ Contribute
 
 - Issue Tracker: https://github.com/it-spirit/collective.tiles.githubgist/issues
 - Source Code: https://github.com/it-spirit/collective.tiles.githubgist
+- Documentation: https://collectivetilesgithubgist.readthedocs.io
 
 
 Support
