@@ -1,33 +1,21 @@
 collective.tiles.githubgist
 ===========================
 
-Tell me what your product does
+This Plone Add-On adds a tile for `Plone`_ Websites to show GitHub Gists.
+
+
+Mostly Harmless
+---------------
+
+.. image:: https://travis-ci.org/it-spirit/collective.tiles.githubgist.png?branch=master
+    :target: http://travis-ci.org/it-spirit/collective.tiles.githubgist
+    :alt: Travis CI status
 
 Features
 --------
 
-- Can be bullet points
-
-
-Examples
---------
-
-This add-on can be seen in action at the following sites:
-- Is there a page on the internet where everybody can see the features?
-
-
-Documentation
--------------
-
-Full documentation for end users can be found in the "docs" folder, and is also available online at http://docs.plone.org/foo/bar
-
-
-Translations
-------------
-
-This product has been translated into
-
-- Klingon (thanks, K'Plai)
+- Adds a new tile to embed GitHub Gists into a Plone website.
+- Registers the tile for `Mosaic`_, if it is installed.
 
 
 Installation
@@ -49,19 +37,22 @@ and then running ``bin/buildout``
 Contribute
 ----------
 
-- Issue Tracker: https://github.com/collective/collective.tiles.githubgist/issues
-- Source Code: https://github.com/collective/collective.tiles.githubgist
-- Documentation: https://docs.plone.org/foo/bar
+- Issue Tracker: https://github.com/it-spirit/collective.tiles.githubgist/issues
+- Source Code: https://github.com/it-spirit/collective.tiles.githubgist
 
 
 Support
 -------
 
 If you are having issues, please let us know.
-We have a mailing list located at: project@example.com
+We have a issue tracker located at: https://github.com/it-spirit/collective.tiles.githubgist/issues
 
 
 License
 -------
 
 The project is licensed under the GPLv2.
+
+
+.. _`Mosaic`: https://github.com/plone/plone.app.mosaic
+.. _`Plone`: https://plone.org
