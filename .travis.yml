@@ -7,7 +7,6 @@ cache:
   - eggs
   - downloads
 env:
-  - PLONE_VERSION=4.3
   - PLONE_VERSION=5.0
   - PLONE_VERSION=5.1
 matrix:
@@ -15,7 +14,7 @@ matrix:
 addons:
   firefox: 45.8.0esr
 install:
-  - sed -ie "s#test-4.x.cfg#test-$PLONE_VERSION.x.cfg#" travis.cfg
+  - sed -ie "s#test-5.x.cfg#test-$PLONE_VERSION.x.cfg#" travis.cfg
   - sed -ie "s#versions-$PLONE_VERSION.x#versions#" travis.cfg
   - mkdir -p buildout-cache/eggs
   - mkdir -p buildout-cache/downloads
