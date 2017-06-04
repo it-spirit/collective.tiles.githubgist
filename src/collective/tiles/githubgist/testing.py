@@ -18,9 +18,12 @@ class CollectiveTilesGithubgistLayer(PloneSandboxLayer):
         # Load any other ZCML that is required for your tests.
         # The z3c.autoinclude feature is disabled in the Plone fixture base
         # layer.
+        import plone.app.mosaic
+        self.loadZCML(package=plone.app.mosaic)
         self.loadZCML(package=collective.tiles.githubgist)
 
     def setUpPloneSite(self, portal):
+        applyProfile(portal, 'plone.app.mosaic:default')
         applyProfile(portal, 'collective.tiles.githubgist:default')
 
 
