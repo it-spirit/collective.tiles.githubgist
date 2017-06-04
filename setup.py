@@ -6,7 +6,7 @@ from setuptools import (
     setup,
 )
 
-version = '0.1'
+version = '0.2.dev0'
 description = "A tile that shows Gists from GitHub."
 long_description = ('\n'.join([
     open('README.rst').read(),
