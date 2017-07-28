@@ -7,6 +7,7 @@ Changelog
 
 - Add tile option to specify filename of a multifile gist.
 - Render gist code in noscript tag.
+- Add option to specify title level (h1 to h6)
 
 
 0.1 (2017-06-04)

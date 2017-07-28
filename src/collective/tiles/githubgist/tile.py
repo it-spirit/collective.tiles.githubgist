@@ -35,6 +35,13 @@ class IGithubGistTile(Schema):
         title=_PMF(u'Show tile title'),
     )
 
+    title_level = schema.Choice(
+        default=u'h2',
+        required=False,
+        title=_(u'Headline level'),
+        values=(u'h1', u'h2', u'h3', u'h4', u'h5', u'h6'),
+    )
+
     ignore_querystring('html_snippet')
     gist_url = schema.TextLine(
         title=_(u'Github Gist URL'),
@@ -67,6 +74,10 @@ class GithubGistTile(tiles.Tile):
     @property
     def show_title(self):
         return self.data.get('show_title')
+
+    @property
+    def title_level(self):
+        return self.data.get('title_level') or u'h2'
 
     @property
     def gist_url(self):
