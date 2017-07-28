@@ -3,6 +3,7 @@
 
 # python imports
 import cgi
+import pygments
 import requests
 
 # zope imports
@@ -57,6 +58,57 @@ class IGithubGistTile(Schema):
         title=_(u'Filename'),
     )
 
+    use_pygments = schema.Bool(
+        default=False,
+        description=_(
+            u'If enabled, Pygments Syntax Highlighter will be used and the '
+            u'gist will be rendered in HTML. Otherwise, the JS embedding '
+            u'is used.'
+        ),
+        required=False,
+        title=_(u'Use Pygments Syntax Highlighter')
+    )
+
+    pygments_language = schema.TextLine(
+        description=_(
+            u'Specify the language (lexer) which should be used for syntax '
+            u'highlighting. If no language is given we try to get it from the '
+            u'file name. This option has no effect if pygments is disabled.'
+        ),
+        required=False,
+        title=_(u'Pygments Language'),
+    )
+
+    pygments_style = schema.TextLine(
+        description=_(
+            u'Specify the style which should be used for syntax '
+            u'highlighting. If no style is given we set it to '
+            u'"colorful". This option has no effect if pygments is disabled.'
+        ),
+        required=False,
+        title=_(u'Pygments Style'),
+    )
+
+    pygments_inline_css = schema.Bool(
+        default=False,
+        description=_(
+            u'If enabled, CSS definitions will be applied inline. If '
+            u'disabled, please make sure you have some CSS definitions for '
+            u'the highlighting in your theme.'
+        ),
+        required=False,
+        title=_(u'Pygments Inline Styles'),
+    )
+
+    pygments_linenos = schema.Bool(
+        default=False,
+        description=_(
+            u'If enabled, line number are shown.'
+        ),
+        required=False,
+        title=_(u'Pygments Line Numbers'),
+    )
+
 
 class GithubGistTile(tiles.Tile):
     """A tile that shows Gists from GitHub."""
@@ -90,6 +142,34 @@ class GithubGistTile(tiles.Tile):
     def gist_file_name(self):
         return self.data.get('gist_file_name')
 
+    @property
+    def use_pygments(self):
+        return self.data.get('use_pygments') or False
+
+    def pygments_lexer(self):
+        language = self.data.get('pygments_language')
+        lexer = None
+        if language is not None:
+            try:
+                lexer = pygments.lexers.get_lexer_by_name(language)
+            except pygments.util.ClassNotFound:
+                lexer = None
+
+        if lexer is None and self.gist_file_name is not None:
+            try:
+                lexer = pygments.lexers.find_lexer_class_for_filename(
+                    self.gist_file_name,
+                )
+            except pygments.util.ClassNotFound:
+                lexer = None
+            else:
+                lexer = lexer()
+
+        if lexer is None:
+            lexer = pygments.lexers.TextLexer()
+
+        return lexer
+
     def gist_raw_url(self, gist_id):
         url = 'https://gist.githubusercontent.com/raw/{0}'.format(gist_id)
         if self.gist_file_name is not None:
@@ -121,3 +201,14 @@ class GithubGistTile(tiles.Tile):
         """Render a piece of code into HTML."""
         code = self.fetch_gist()
         return '<pre><code>{0}</code></pre>'.format(cgi.escape(code))
+
+    def render_pygments_code(self):
+        """Render a piece of code into HTML."""
+        code = self.fetch_gist()
+        lexer = self.pygments_lexer()
+        formatter = pygments.formatters.HtmlFormatter(
+            linenos=(self.data.get('pygments_linenos') and 'table') or False,
+            noclasses=self.data.get('pygments_inline_css') or False,
+            style=self.data.get('pygments_style') or 'colorful',
+        )
+        return pygments.highlight(code, lexer, formatter)

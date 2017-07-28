@@ -7,6 +7,11 @@
   <body tal:define="title context/Title|nothing"
                     i18n:domain="plone">
 
+    <style type="text/css">
+      .highlight > pre {
+        background-color: transparent;
+      }
+    </style>
     <div class="tileItem clearfix"
         tal:attributes="class string:tileItem tile-id-${view/tile_id}">
       <div class="tileHeading"
@@ -20,9 +25,12 @@
           <h6 tal:condition="python:htmltag == 'h6'" tal:content="view/tile_title">Title</h6>
         </tal:header>
       </div>
-      <div class="tileBody">
+      <div class="tileBody" tal:condition="not: view/use_pygments">
         <script src="" tal:attributes="src view/gist_url"></script>
         <noscript tal:content="structure view/render_code | nothing"></noscript>
+      </div>
+      <div class="tileBody" tal:condition="view/use_pygments">
+        <div tal:replace="structure view/render_pygments_code | nothing"></div>
       </div>
     </div>
 

@@ -26,6 +26,7 @@ install_requires = [
     'plone.i18n',
     'plone.supermodel',
     'plone.tiles',
+    'pygments',
     'zope.component',
     'zope.schema',
 ]
