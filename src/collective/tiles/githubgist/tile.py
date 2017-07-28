@@ -37,6 +37,15 @@ class IGithubGistTile(Schema):
         required=True,
     )
 
+    gist_file_name = schema.TextLine(
+        description=_(
+            u'If specified only the given filename of a multi file gist '
+            u'will be shown.'
+        ),
+        required=False,
+        title=_(u'Filename'),
+    )
+
 
 class GithubGistTile(tiles.Tile):
     """A tile that shows Gists from GitHub."""
@@ -57,6 +66,11 @@ class GithubGistTile(tiles.Tile):
 
     @property
     def gist_url(self):
-        return u'{0}.js'.format(
-            self.data.get('gist_url')
-        )
+        url = u'{0}.js'.format(self.data.get('gist_url'))
+        if self.gist_file_name is not None:
+            url += '?file={0}'.format(self.gist_file_name)
+        return url
+
+    @property
+    def gist_file_name(self):
+        return self.data.get('gist_file_name')
