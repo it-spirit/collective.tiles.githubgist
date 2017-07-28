@@ -2,8 +2,13 @@
 """Tile implementation."""
 
 # python imports
+from pygments import (
+    formatters,
+    highlight,
+    lexers,
+)
+from pygments.util import ClassNotFound
 import cgi
-import pygments
 import requests
 
 # zope imports
@@ -151,22 +156,22 @@ class GithubGistTile(tiles.Tile):
         lexer = None
         if language is not None:
             try:
-                lexer = pygments.lexers.get_lexer_by_name(language)
-            except pygments.util.ClassNotFound:
+                lexer = lexers.get_lexer_by_name(language)
+            except ClassNotFound:
                 lexer = None
 
         if lexer is None and self.gist_file_name is not None:
             try:
-                lexer = pygments.lexers.find_lexer_class_for_filename(
+                lexer = lexers.find_lexer_class_for_filename(
                     self.gist_file_name,
                 )
-            except pygments.util.ClassNotFound:
+            except ClassNotFound:
                 lexer = None
             else:
                 lexer = lexer()
 
         if lexer is None:
-            lexer = pygments.lexers.TextLexer()
+            lexer = lexers.TextLexer()
 
         return lexer
 
@@ -206,9 +211,9 @@ class GithubGistTile(tiles.Tile):
         """Render a piece of code into HTML."""
         code = self.fetch_gist()
         lexer = self.pygments_lexer()
-        formatter = pygments.formatters.HtmlFormatter(
+        formatter = formatters.HtmlFormatter(
             linenos=(self.data.get('pygments_linenos') and 'table') or False,
             noclasses=self.data.get('pygments_inline_css') or False,
             style=self.data.get('pygments_style') or 'colorful',
         )
-        return pygments.highlight(code, lexer, formatter)
+        return highlight(code, lexer, formatter)
