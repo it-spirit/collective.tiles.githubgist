@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-0.3 (unreleased)
-----------------
+0.2.1 (2017-07-28)
+------------------
 
 - Fix pygments related imports.
 
