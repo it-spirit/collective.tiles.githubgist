@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 """Tile implementation."""
 
+# python imports
+import cgi
+import requests
+
 # zope imports
 from plone import tiles
 from plone.app.standardtiles import _PMF
@@ -74,3 +78,35 @@ class GithubGistTile(tiles.Tile):
     @property
     def gist_file_name(self):
         return self.data.get('gist_file_name')
+
+    def gist_raw_url(self, gist_id):
+        url = 'https://gist.githubusercontent.com/raw/{0}'.format(gist_id)
+        if self.gist_file_name is not None:
+            url += '/{0}'.format(self.gist_file_name)
+        return url
+
+    @property
+    def gist_id(self):
+        try:
+            gist_id = self.data.get('gist_url').rsplit('/')[-1]
+        except AttributeError:
+            gist_id = None
+        return gist_id
+
+    def fetch_gist(self):
+        """Fetch a gist and return the contents as a string."""
+        url = self.gist_raw_url(self.gist_id)
+        response = requests.get(url)
+
+        if response.status_code != 200:
+            return u''
+        body = response.text
+        if not body:
+            return u''
+
+        return body
+
+    def render_code(self):
+        """Render a piece of code into HTML."""
+        code = self.fetch_gist()
+        return '<pre><code>{0}</code></pre>'.format(cgi.escape(code))

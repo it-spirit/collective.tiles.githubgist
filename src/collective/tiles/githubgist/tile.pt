@@ -14,6 +14,7 @@
       </div>
       <div class="tileBody">
         <script src="" tal:attributes="src view/gist_url"></script>
+        <noscript tal:content="structure view/render_code | nothing"></noscript>
       </div>
     </div>
 
