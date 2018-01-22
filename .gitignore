@@ -1,7 +1,7 @@
 .coverage
 *.egg-info
 *.mo
-*.pyc
+*.py?
 *~
 .installed.cfg
 .mr.developer.cfg
