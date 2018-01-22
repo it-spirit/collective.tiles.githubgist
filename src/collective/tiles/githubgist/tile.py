@@ -1,27 +1,21 @@
 # -*- coding: utf-8 -*-
 """Tile implementation."""
 
-# python imports
-from pygments import (
-    formatters,
-    highlight,
-    lexers,
-)
-from pygments.util import ClassNotFound
-import cgi
-import requests
-
-# zope imports
+from collective.tiles.githubgist import _
 from plone import tiles
 from plone.app.standardtiles import _PMF
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.supermodel.model import Schema
 from plone.tiles.directives import ignore_querystring
+from pygments import formatters
+from pygments import highlight
+from pygments import lexers
+from pygments.util import ClassNotFound
 from zope import schema
 from zope.component import queryUtility
 
-# local imports
-from collective.tiles.githubgist import _
+import cgi
+import requests
 
 
 class IGithubGistTile(Schema):
@@ -30,7 +24,7 @@ class IGithubGistTile(Schema):
     tile_title = schema.TextLine(
         description=_PMF(
             u'The title will also be used to create identifying class on '
-            u'that tile'
+            u'that tile',
         ),
         required=True,
         title=_PMF(u'Title'),
@@ -57,7 +51,7 @@ class IGithubGistTile(Schema):
     gist_file_name = schema.TextLine(
         description=_(
             u'If specified only the given filename of a multi file gist '
-            u'will be shown.'
+            u'will be shown.',
         ),
         required=False,
         title=_(u'Filename'),
@@ -68,17 +62,17 @@ class IGithubGistTile(Schema):
         description=_(
             u'If enabled, Pygments Syntax Highlighter will be used and the '
             u'gist will be rendered in HTML. Otherwise, the JS embedding '
-            u'is used.'
+            u'is used.',
         ),
         required=False,
-        title=_(u'Use Pygments Syntax Highlighter')
+        title=_(u'Use Pygments Syntax Highlighter'),
     )
 
     pygments_language = schema.TextLine(
         description=_(
             u'Specify the language (lexer) which should be used for syntax '
             u'highlighting. If no language is given we try to get it from the '
-            u'file name. This option has no effect if pygments is disabled.'
+            u'file name. This option has no effect if pygments is disabled.',
         ),
         required=False,
         title=_(u'Pygments Language'),
@@ -88,7 +82,7 @@ class IGithubGistTile(Schema):
         description=_(
             u'Specify the style which should be used for syntax '
             u'highlighting. If no style is given we set it to '
-            u'"colorful". This option has no effect if pygments is disabled.'
+            u'"colorful". This option has no effect if pygments is disabled.',
         ),
         required=False,
         title=_(u'Pygments Style'),
@@ -99,7 +93,7 @@ class IGithubGistTile(Schema):
         description=_(
             u'If enabled, CSS definitions will be applied inline. If '
             u'disabled, please make sure you have some CSS definitions for '
-            u'the highlighting in your theme.'
+            u'the highlighting in your theme.',
         ),
         required=False,
         title=_(u'Pygments Inline Styles'),
@@ -107,9 +101,7 @@ class IGithubGistTile(Schema):
 
     pygments_linenos = schema.Bool(
         default=False,
-        description=_(
-            u'If enabled, line number are shown.'
-        ),
+        description=_(u'If enabled, line number are shown.'),
         required=False,
         title=_(u'Pygments Line Numbers'),
     )
@@ -121,7 +113,7 @@ class GithubGistTile(tiles.Tile):
     @property
     def tile_id(self):
         return queryUtility(IIDNormalizer).normalize(
-            self.data.get('tile_title')
+            self.data.get('tile_title'),
         )
 
     @property

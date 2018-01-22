@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """Post install import steps for collective.tiles.githubgist."""
 
-# zope imports
-from Products.CMFPlone.interfaces import INonInstallable
 from plone import api
+from Products.CMFPlone.interfaces import INonInstallable
 from zope.interface import implementer
 
 

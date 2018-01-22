@@ -1,23 +1,16 @@
 # -*- coding: utf-8 -*-
-"""Test Setup of spirit.plone.theming."""
+"""Test Setup of collective.tiles.githubgist."""
 
-# python imports
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
-
-# zope imports
+from collective.tiles.githubgist.config import PROJECT_NAME
+from collective.tiles.githubgist.testing import INTEGRATION_TESTING
 from plone import api
 from plone.browserlayer.utils import registered_layers
 
-# local imports
-from collective.tiles.githubgist.config import PROJECT_NAME
-from collective.tiles.githubgist.testing import INTEGRATION_TESTING
+import unittest
 
 
 class TestSetup(unittest.TestCase):
-    """Test that collective.tiles.githubgist is properly installed."""
+    """Validate setup process for collective.tiles.githubgist."""
 
     layer = INTEGRATION_TESTING
 
@@ -39,6 +32,7 @@ class TestSetup(unittest.TestCase):
 
 
 class TestUninstall(unittest.TestCase):
+    """Validate uninstall process for plonetheme.barcelonetang."""
 
     layer = INTEGRATION_TESTING
 

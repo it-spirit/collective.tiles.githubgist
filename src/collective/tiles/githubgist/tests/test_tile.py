@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
 """Validate the tile implementation."""
 
-# python imports
-from urllib import quote
-import unittest
-
-# zope imports
-from plone.testing.z2 import Browser
-
-# local imports
 from collective.tiles.githubgist.testing import INTEGRATION_TESTING
+from plone.testing.z2 import Browser
+from urllib import quote
+
+import unittest
 
 
 class TestTile(unittest.TestCase):
@@ -34,11 +30,11 @@ class TestTile(unittest.TestCase):
             '/@@collective.tiles.githubgist/unique',
             data='gist_url=' + quote(gist_url) +
             '&tile_title=' + quote(tile_title) +
-            '&show_title=1'
+            '&show_title=1',
         )
         contents = self.unprivileged_browser.contents
         self.assertTrue(tile_title in contents)
         self.assertIn(
             '<script src="{0}.js">'.format(gist_url),
-            self.unprivileged_browser.contents
+            self.unprivileged_browser.contents,
         )
