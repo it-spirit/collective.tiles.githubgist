@@ -1,8 +1,9 @@
+sudo: false
 language: python
 python:
   - 2.7
-sudo: false
 cache:
+  pip: true
   directories:
   - eggs
   - downloads
@@ -13,18 +14,16 @@ matrix:
   fast_finish: true
 addons:
   firefox: 45.8.0esr
+before_install:
+  - pip uninstall -y six
 install:
-  - sed -ie "s#test-5.x.cfg#test-$PLONE_VERSION.x.cfg#" travis.cfg
-  - sed -ie "s#versions-$PLONE_VERSION.x#versions#" travis.cfg
-  - mkdir -p buildout-cache/eggs
-  - mkdir -p buildout-cache/downloads
-  - pip install zc.buildout==2.5.0
-  - buildout -c travis.cfg annotate
-  - buildout -c travis.cfg -N -q
-
+  - sed -ie "s#test-5.1.x.cfg#test-$PLONE_VERSION.x.cfg#" buildout.cfg
+  - pip install -r requirements.txt
+  - buildout -N buildout:download-cache=downloads code-analysis:return-status-codes=True annotate
+  - buildout -N buildout:download-cache=downloads code-analysis:return-status-codes=True
 before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
   - firefox -v
 script:
   - bin/code-analysis
@@ -33,3 +32,6 @@ after_success:
   - bin/createcoverage
   - pip install coveralls
   - coveralls
+notifications:
+  email:
+    - development@it-spir.it
